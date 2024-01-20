@@ -1,0 +1,28 @@
+.flight-list-table {
+  width: 60%;
+  margin: 5% auto;
+}
+
+.flight-table-header {
+  height: 75px;
+}
+
+.flight-table-body tr {
+  background: #edf2f7;
+}
+
+.flight-table-body tr:hover {
+  background: #d5ebeb;
+}
+
+.flight-table-header,
+.flight-table-pagination {
+  background-color: #319795;
+}
+
+.flight-table-header th span,
+.flight-table-header th svg,
+.flight-table-pagination {
+  color: white !important;
+  font-size: large;
+}

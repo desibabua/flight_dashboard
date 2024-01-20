@@ -1,81 +1,14 @@
-import Paper from "@mui/material/Paper";
+import Card from "@mui/material/Card";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
 import { FC, useState } from "react";
 import FlightDetail from "./FlightDetails";
-
-const FlightsTableHeader: FC<{
-  orderBy: string;
-  order: "asc" | "desc";
-  handleRequestSort: (property: keyof FlightDetail) => void;
-}> = ({ orderBy, order, handleRequestSort }) => {
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell>
-          <TableSortLabel
-            active={orderBy === "flightNumber"}
-            direction={orderBy === "flightNumber" ? order : "asc"}
-            onClick={() => handleRequestSort("flightNumber")}
-          >
-            Flight Number
-          </TableSortLabel>
-        </TableCell>
-        <TableCell>
-          <TableSortLabel
-            active={orderBy === "airline"}
-            direction={orderBy === "airline" ? order : "asc"}
-            onClick={() => handleRequestSort("airline")}
-          >
-            Airline
-          </TableSortLabel>
-        </TableCell>
-        <TableCell>
-          <TableSortLabel
-            active={orderBy === "origin"}
-            direction={orderBy === "origin" ? order : "asc"}
-            onClick={() => handleRequestSort("origin")}
-          >
-            Origin
-          </TableSortLabel>
-        </TableCell>
-        <TableCell>
-          <TableSortLabel
-            active={orderBy === "destination"}
-            direction={orderBy === "destination" ? order : "asc"}
-            onClick={() => handleRequestSort("destination")}
-          >
-            Destination
-          </TableSortLabel>
-        </TableCell>
-        <TableCell>
-          <TableSortLabel
-            active={orderBy === "departureTime"}
-            direction={orderBy === "departureTime" ? order : "asc"}
-            onClick={() => handleRequestSort("departureTime")}
-          >
-            Departure Time
-          </TableSortLabel>
-        </TableCell>
-        <TableCell>
-          <TableSortLabel
-            active={orderBy === "status"}
-            direction={orderBy === "status" ? order : "asc"}
-            onClick={() => handleRequestSort("status")}
-          >
-            Status
-          </TableSortLabel>
-        </TableCell>
-      </TableRow>
-    </TableHead>
-  );
-};
+import FlightsTableHeaders from "./FlightTableHeaders";
+import "./FlightList.css";
 
 interface FlightTableProps {
   flights: FlightDetail[];
@@ -87,29 +20,10 @@ const FlightsList: FC<FlightTableProps> = ({ flights }) => {
   const [orderBy, setOrderBy] = useState<keyof FlightDetail>("departureTime");
   const [order, setOrder] = useState<"asc" | "desc">("asc");
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
   const handleRequestSort = (property: keyof FlightDetail) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const stableSort = (
-    array: FlightDetail[],
-    comparator: (a: FlightDetail, b: FlightDetail) => number
-  ) => {
-    const stabilizedThis = array.map(
-      (el, index) => [el, index] as [FlightDetail, number]
-    );
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) return order;
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
   };
 
   const getComparator = (
@@ -122,18 +36,18 @@ const FlightsList: FC<FlightTableProps> = ({ flights }) => {
           b[orderBy] > a[orderBy] ? 1 : -1;
   };
 
-  const sortedFlights = stableSort(flights, getComparator(order, orderBy));
+  const sortedFlights = flights.slice().sort(getComparator(order, orderBy));
 
   return (
-    <Paper>
+    <Card className="flight-list-table">
       <TableContainer>
         <Table>
-          <FlightsTableHeader
+          <FlightsTableHeaders
             order={order}
             orderBy={orderBy}
             handleRequestSort={handleRequestSort}
           />
-          <TableBody>
+          <TableBody className="flight-table-body">
             {sortedFlights
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((flight) => (
@@ -152,13 +66,15 @@ const FlightsList: FC<FlightTableProps> = ({ flights }) => {
         </Table>
       </TableContainer>
       <TablePagination
+        className="flight-table-pagination"
         component="div"
         count={flights.length}
         rowsPerPage={rowsPerPage}
+        rowsPerPageOptions={[rowsPerPage]}
         page={page}
-        onPageChange={handleChangePage}
+        onPageChange={(_, newPage) => setPage(newPage)}
       />
-    </Paper>
+    </Card>
   );
 };
 
