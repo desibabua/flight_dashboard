@@ -1,0 +1,10 @@
+.appBar {
+  height: 120;
+  background: linear-gradient(to right, #319795, #88dfde);
+}
+
+.appBar-title {
+  flex-grow: 1;
+  text-align: left;
+  color: black;
+}
