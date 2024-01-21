@@ -1,10 +1,11 @@
 .appBar {
-  height: 120;
+  height: 120px !important;
   background: linear-gradient(to right, #319795, #88dfde);
+  margin-bottom: 5%;
 }
 
 .appBar-title {
-  flex-grow: 1;
   text-align: left;
   color: black;
+  cursor: pointer;
 }

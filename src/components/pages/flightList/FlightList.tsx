@@ -5,17 +5,33 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { FC, useState } from "react";
-import FlightDetail from "./FlightDetails";
-import FlightsTableHeaders from "./FlightTableHeaders";
+import { FC, ReactNode, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { formatDateTime } from "../../../utils/dateUtils";
+import FlightDetail from "./FlightDetail";
 import "./FlightList.css";
+import FlightsTableHeaders from "./FlightTableHeaders";
+import FlightStatus from "../../flightStatus/FlightStatus";
 
 interface FlightTableProps {
   flights: FlightDetail[];
 }
 
+const TableRowCell: FC<{ flightId: number; value: string | ReactNode }> = ({
+  flightId,
+  value,
+}) => {
+  const navigate = useNavigate();
+
+  return (
+    <TableCell onClick={() => navigate(`/flight/${flightId}`)}>
+      {value}
+    </TableCell>
+  );
+};
+
 const FlightsList: FC<FlightTableProps> = ({ flights }) => {
-  const rowsPerPage = 10;
+  const rowsPerPage = 8;
   const [page, setPage] = useState(0);
   const [orderBy, setOrderBy] = useState<keyof FlightDetail>("departureTime");
   const [order, setOrder] = useState<"asc" | "desc">("asc");
@@ -52,14 +68,24 @@ const FlightsList: FC<FlightTableProps> = ({ flights }) => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((flight) => (
                 <TableRow key={flight.id}>
-                  <TableCell>{flight.flightNumber}</TableCell>
-                  <TableCell>{flight.airline}</TableCell>
-                  <TableCell>{flight.origin}</TableCell>
-                  <TableCell>{flight.destination}</TableCell>
-                  <TableCell>
-                    {new Date(flight.departureTime).toLocaleString()}
-                  </TableCell>
-                  <TableCell>{flight.status}</TableCell>
+                  <TableRowCell
+                    flightId={flight.id}
+                    value={flight.flightNumber}
+                  />
+                  <TableRowCell flightId={flight.id} value={flight.airline} />
+                  <TableRowCell flightId={flight.id} value={flight.origin} />
+                  <TableRowCell
+                    flightId={flight.id}
+                    value={flight.destination}
+                  />
+                  <TableRowCell
+                    flightId={flight.id}
+                    value={formatDateTime(flight.departureTime)}
+                  />
+                  <TableRowCell
+                    flightId={flight.id}
+                    value={<FlightStatus status={flight.status} />}
+                  />
                 </TableRow>
               ))}
           </TableBody>

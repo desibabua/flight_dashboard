@@ -1,7 +1,7 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
+import FlightDetail from "./FlightDetail";
 import FlightsList from "./FlightList";
-import FlightDetail from "./FlightDetails";
+import { BrowserRouter as Router } from "react-router-dom";
 
 describe("should render Flight List page", () => {
   test("should render flight when flight details are available", () => {
@@ -16,7 +16,11 @@ describe("should render Flight List page", () => {
         status: "Delayed",
       },
     ];
-    render(<FlightsList flights={flightDetails} />);
+    render(
+      <Router>
+        <FlightsList flights={flightDetails} />
+      </Router>
+    );
     const appBarTitleText = screen.getByText(/Airline For Test/i);
     expect(appBarTitleText).toBeInTheDocument();
   });

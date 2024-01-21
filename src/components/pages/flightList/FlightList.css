@@ -1,6 +1,6 @@
 .flight-list-table {
   width: 60%;
-  margin: 5% auto;
+  margin: 5px auto;
 }
 
 .flight-table-header {
@@ -13,6 +13,7 @@
 
 .flight-table-body tr:hover {
   background: #d5ebeb;
+  cursor: pointer
 }
 
 .flight-table-header,

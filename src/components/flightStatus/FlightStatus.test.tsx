@@ -1,14 +1,14 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
-import Header from "./Header";
+import FlightStatus from "./FlightStatus";
 
-test("should render app bar title", () => {
+test("should render status", () => {
   render(
     <Router>
-      <Header />
+      <FlightStatus status="Departed" />
     </Router>
   );
-  const appBarTitleText = screen.getByText(/FlightFolio/i);
+  const appBarTitleText = screen.getByText(/Departed/i);
   expect(appBarTitleText).toBeInTheDocument();
 });
