@@ -7,15 +7,13 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { FC, ReactNode, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { formatDateTime } from "../../../utils/dateUtils";
-import FlightDetail from "./FlightDetail";
-import "./FlightList.css";
+import useGetFlightsListDetails from "../../hooks.ts/useGetFlightsListDetails";
+import FlightDetail from "../../utils/FlightDetail";
+import { formatDateTime } from "../../utils/dateUtils";
+import LoaderAnimation from "../common/LoaderAnimation";
+import FlightStatus from "../flightStatus/FlightStatus";
+import "./FlightListTable.css";
 import FlightsTableHeaders from "./FlightTableHeaders";
-import FlightStatus from "../../flightStatus/FlightStatus";
-
-interface FlightTableProps {
-  flights: FlightDetail[];
-}
 
 const TableRowCell: FC<{ flightId: number; value: string | ReactNode }> = ({
   flightId,
@@ -30,11 +28,17 @@ const TableRowCell: FC<{ flightId: number; value: string | ReactNode }> = ({
   );
 };
 
-const FlightsList: FC<FlightTableProps> = ({ flights }) => {
+const FlightsListTable: FC = () => {
   const rowsPerPage = 8;
   const [page, setPage] = useState(0);
   const [orderBy, setOrderBy] = useState<keyof FlightDetail>("departureTime");
   const [order, setOrder] = useState<"asc" | "desc">("asc");
+
+  const flightsDetails = useGetFlightsListDetails();
+
+  if (!flightsDetails) {
+    return <LoaderAnimation />;
+  }
 
   const handleRequestSort = (property: keyof FlightDetail) => {
     const isAsc = orderBy === property && order === "asc";
@@ -52,7 +56,9 @@ const FlightsList: FC<FlightTableProps> = ({ flights }) => {
           b[orderBy] > a[orderBy] ? 1 : -1;
   };
 
-  const sortedFlights = flights.slice().sort(getComparator(order, orderBy));
+  const sortedFlights = flightsDetails
+    .slice()
+    .sort(getComparator(order, orderBy));
 
   return (
     <Card className="flight-list-table">
@@ -94,7 +100,7 @@ const FlightsList: FC<FlightTableProps> = ({ flights }) => {
       <TablePagination
         className="flight-table-pagination"
         component="div"
-        count={flights.length}
+        count={flightsDetails.length}
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[rowsPerPage]}
         page={page}
@@ -104,4 +110,4 @@ const FlightsList: FC<FlightTableProps> = ({ flights }) => {
   );
 };
 
-export default FlightsList;
+export default FlightsListTable;

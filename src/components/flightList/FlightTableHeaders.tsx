@@ -1,5 +1,5 @@
 import { FC } from "react";
-import FlightDetail from "./FlightDetail";
+import FlightDetail from "../../utils/FlightDetail";
 import { TableCell, TableHead, TableRow, TableSortLabel } from "@mui/material";
 
 const columns: {

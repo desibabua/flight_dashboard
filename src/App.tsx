@@ -1,10 +1,8 @@
-import React from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 import Header from "./components/header/Header";
-import FlightsList from "./components/pages/flightList/FlightList";
-import { defaultFlightDetails } from "./components/pages/flightList/FlightDetail";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import FlightDetailPage from "./components/pages/flightDetail/FlightDetail";
+import FlightDetails from "./components/pages/FlightDetails";
+import FlightsList from "./components/pages/FlightsList";
 
 function App() {
   return (
@@ -12,12 +10,8 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route
-            path="/"
-            element={<FlightsList flights={defaultFlightDetails} />}
-          />
-
-          <Route path="/flight/:id" element={<FlightDetailPage />} />
+          <Route path="/" element={<FlightsList />} />
+          <Route path="/flight/:id" element={<FlightDetails />} />
         </Routes>
       </Router>
     </div>

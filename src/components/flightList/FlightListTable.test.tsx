@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import FlightDetail from "./FlightDetail";
-import FlightsList from "./FlightList";
+import FlightDetail from "../../utils/FlightDetail";
+import FlightsListTable from "./FlightListTable";
 import { BrowserRouter as Router } from "react-router-dom";
 
 describe("should render Flight List page", () => {
@@ -18,7 +18,7 @@ describe("should render Flight List page", () => {
     ];
     render(
       <Router>
-        <FlightsList flights={flightDetails} />
+        <FlightsListTable />
       </Router>
     );
     const appBarTitleText = screen.getByText(/Airline For Test/i);

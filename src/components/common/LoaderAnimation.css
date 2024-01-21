@@ -1,0 +1,11 @@
+.loader {
+  display: "flex";
+  flex-direction: "column";
+  padding: 20;
+  align-items: "center";
+  flex: 1;
+}
+
+.loader div {
+  margin: 0px auto;
+}
