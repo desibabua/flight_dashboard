@@ -1,11 +1,15 @@
 import { render, screen } from "@testing-library/react";
-import FlightDetail from "../../utils/FlightDetail";
-import FlightsListTable from "./FlightListTable";
-import { BrowserRouter as Router } from "react-router-dom";
 
-describe("should render Flight List page", () => {
-  test("should render flight when flight details are available", () => {
-    const flightDetails: FlightDetail[] = [
+import MockAdapter from "axios-mock-adapter";
+import { MemoryRouter } from "react-router-dom";
+import apiInstance from "../../api/axios";
+import FlightsListTable from "./FlightListTable";
+
+const mock = new MockAdapter(apiInstance);
+
+describe("Flights List Details", () => {
+  it("should show flights status details", async () => {
+    const flightsDetails = [
       {
         id: 1,
         flightNumber: "A1B26",
@@ -16,12 +20,16 @@ describe("should render Flight List page", () => {
         status: "Delayed",
       },
     ];
+
+    mock.onGet("/flights").reply(200, flightsDetails);
+
     render(
-      <Router>
+      <MemoryRouter initialEntries={["/"]}>
         <FlightsListTable />
-      </Router>
+      </MemoryRouter>
     );
-    const appBarTitleText = screen.getByText(/Airline For Test/i);
-    expect(appBarTitleText).toBeInTheDocument();
+
+    const element = await screen.findByText(/Airline For Test/i);
+    expect(element).toBeInTheDocument();
   });
 });

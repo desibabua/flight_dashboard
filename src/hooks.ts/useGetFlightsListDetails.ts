@@ -2,22 +2,25 @@ import { useEffect, useState } from "react";
 import FlightDetail from "../utils/FlightDetail";
 import APIService from "../api/APIService";
 import { promiseWrapper } from "../api/helper";
+import axiosInstance from "../api/axios";
 
 const useGetFlightsListDetails = (): FlightDetail[] | null => {
+  const apiService = new APIService(axiosInstance);
   const [flightsDetails, setFlightsDetails] = useState<FlightDetail[] | null>(
     null
   );
 
   useEffect(() => {
     const getFlightData = async () => {
-      const response = promiseWrapper(APIService.fetchFlights());
+      const response = promiseWrapper(apiService.fetchFlights());
       setFlightsDetails(response);
     };
 
+    
     getFlightData();
-
+    
     const intervalId = setInterval(async () => {
-      APIService.fetchFlights()
+      apiService.fetchFlights()
         .then((response) => {
           setFlightsDetails(response);
         })

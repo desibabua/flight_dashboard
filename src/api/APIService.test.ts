@@ -20,7 +20,7 @@ describe("API Service", () => {
 
     mock.onGet("/flights").reply(200, flightsDetails);
 
-    const res = await APIService.fetchFlights();
+    const res = await new APIService(instance).fetchFlights();
 
     expect(res).toEqual(flightsDetails);
   });
