@@ -29,6 +29,7 @@ function ErrorCard({
         {actionName && navigateOnActionTo && (
           <Button
             variant={"contained"}
+            sx={{ background: "#319795" }}
             onClick={() => navigate(navigateOnActionTo)}
           >
             {actionName}

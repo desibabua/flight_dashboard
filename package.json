@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.5",
@@ -10,9 +11,10 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/node": "^16.18.73",
+    "@types/node": "v20.11.0",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react-swc": "^3.5.0",
     "axios": "^1.6.5",
     "axios-mock-adapter": "^1.22.0",
     "jest-canvas-mock": "^2.5.2",
@@ -21,14 +23,14 @@
     "react-dom": "^18.2.0",
     "react-lottie-player": "^1.5.6",
     "react-router-dom": "^6.21.3",
-    "react-scripts": "5.0.1",
+    "vite": "^5.0.12",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "dev": "vite",
+    "build": "tsc && vite build",
     "test": "jest --config config/jest.config.cjs",
-    "eject": "react-scripts eject"
+    "preview": "vite preview"
   },
   "eslintConfig": {
     "extends": [
